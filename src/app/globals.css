@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f2ecdd;
+  --foreground: #181511;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-paper: #f2ecdd;
+  --color-paper-dim: #e7dcc0;
+  --color-ink: #181511;
+  --color-riso-red: #e4432d;
+  --color-riso-blue: #1c5aa6;
+  --color-riso-green: #1c8a5d;
+  --color-riso-gold: #e8a72b;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-pixel: var(--font-pixel-src);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hard offset shadows — simulates riso color-layer misregistration */
+.shadow-hard-ink {
+  box-shadow: 4px 4px 0 0 var(--color-ink);
+}
+.shadow-hard-blue {
+  box-shadow: 4px 4px 0 0 var(--color-riso-blue);
+}
+.shadow-hard-red {
+  box-shadow: 4px 4px 0 0 var(--color-riso-red);
+}
+.shadow-hard-green {
+  box-shadow: 4px 4px 0 0 var(--color-riso-green);
+}
+.shadow-hard-gold {
+  box-shadow: 4px 4px 0 0 var(--color-riso-gold);
+}
+
+/* Halftone dot texture — riso print style, used inside stamped badges */
+.texture-halftone {
+  background-image: radial-gradient(currentColor 1px, transparent 1px);
+  background-size: 6px 6px;
+  color: var(--color-ink);
+  opacity: 0.15;
+}
+
+/* Ticker footer — seamless scroll loop (row is duplicated, translate exactly one copy's width) */
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-ticker {
+  animation: ticker-scroll 30s linear infinite;
+}
+
+/* Paper grain — subtle fixed noise overlay across the whole app */
+.texture-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
