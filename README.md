@@ -2,6 +2,8 @@
 
 An agent that takes a company name, researches it across financials, SEC filings, news, investor networks, and industry signals, and returns a structured **INVEST / PASS** verdict with scores, reasoning, and supporting evidence — streamed live to the browser as it works.
 
+**Live demo:** [investiq-bud.vercel.app](https://investiq-bud.vercel.app)
+
 ---
 
 ## Overview
