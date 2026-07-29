@@ -14,10 +14,12 @@ const industrySchema = z.object({
   marketSizeGrowth: z.string().optional(),
 });
 
-const llm = new ChatGroq({
-  model: "llama-3.3-70b-versatile",
-  temperature: 0,
-}).withStructuredOutput(industrySchema);
+function getLlm() {
+  return new ChatGroq({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0,
+  }).withStructuredOutput(industrySchema);
+}
 
 export async function gatherIndustrySignals(
   state: ResearchState
@@ -48,7 +50,7 @@ export async function gatherIndustrySignals(
       .join("\n\n");
 
     const industrySignals = await invokeWithRetry(() =>
-      llm.invoke([
+      getLlm().invoke([
         {
           role: "user",
           content: `Analyze the industry environment and future signals for ${company} in the ${sector} / ${industry} space.

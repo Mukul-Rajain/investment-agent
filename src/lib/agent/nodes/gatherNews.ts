@@ -22,10 +22,12 @@ const newsSchema = z.object({
   analystRatings: looseString().optional(),
 });
 
-const llm = new ChatGroq({
-  model: "llama-3.3-70b-versatile",
-  temperature: 0,
-}).withStructuredOutput(newsSchema);
+function getLlm() {
+  return new ChatGroq({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0,
+  }).withStructuredOutput(newsSchema);
+}
 
 export async function gatherNews(
   state: ResearchState
@@ -58,7 +60,7 @@ export async function gatherNews(
     // type inference exposes their pre-transform shape — cast to the real
     // runtime shape here. See zodHelpers.ts for why.
     const news = (await invokeWithRetry(() =>
-      llm.invoke([
+      getLlm().invoke([
         {
           role: "user",
           content: `Analyze the following news about ${company} and extract structured information.

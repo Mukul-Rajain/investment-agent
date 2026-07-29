@@ -39,10 +39,12 @@ const analysisSchema = z.object({
   keyWeaknesses: z.array(z.string()),
 });
 
-const llm = new ChatGroq({
-  model: "llama-3.3-70b-versatile",
-  temperature: 0.1,
-}).withStructuredOutput(analysisSchema);
+function getLlm() {
+  return new ChatGroq({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0.1,
+  }).withStructuredOutput(analysisSchema);
+}
 
 function formatFinancials(f: ResearchState["financials"]): string {
   if (!f) return "No financial data available.";
@@ -155,7 +157,7 @@ Provide INVEST or PASS based on a balanced view of value AND growth.`;
     // coerced at runtime, but LangChain's structured-output type inference
     // exposes their pre-transform shape. See zodHelpers.ts for why.
     const analysis = (await invokeWithRetry(() =>
-      llm.invoke([{ role: "user", content: prompt }])
+      getLlm().invoke([{ role: "user", content: prompt }])
     )) as AnalysisResult;
 
     return {

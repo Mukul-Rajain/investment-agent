@@ -17,10 +17,12 @@ const companySchema = z.object({
   website: z.string().optional(),
 });
 
-const llm = new ChatGroq({
-  model: "llama-3.3-70b-versatile",
-  temperature: 0,
-}).withStructuredOutput(companySchema);
+function getLlm() {
+  return new ChatGroq({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0,
+  }).withStructuredOutput(companySchema);
+}
 
 export async function resolveCompany(
   state: ResearchState
@@ -44,7 +46,7 @@ export async function resolveCompany(
       .join("\n\n");
 
     const companyInfo = await invokeWithRetry(() =>
-      llm.invoke([
+      getLlm().invoke([
         {
           role: "user",
           content: `Extract structured company information from the following research data for "${state.company}".

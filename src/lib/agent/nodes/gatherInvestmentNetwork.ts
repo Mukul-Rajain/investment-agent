@@ -13,10 +13,12 @@ const networkSchema = z.object({
   ecosystemInsights: z.string(),
 });
 
-const llm = new ChatGroq({
-  model: "llama-3.3-70b-versatile",
-  temperature: 0,
-}).withStructuredOutput(networkSchema);
+function getLlm() {
+  return new ChatGroq({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0,
+  }).withStructuredOutput(networkSchema);
+}
 
 export async function gatherInvestmentNetwork(
   state: ResearchState
@@ -45,7 +47,7 @@ export async function gatherInvestmentNetwork(
       .join("\n\n");
 
     const investmentNetwork = await invokeWithRetry(() =>
-      llm.invoke([
+      getLlm().invoke([
         {
           role: "user",
           content: `Analyze the investment network and business ecosystem of ${company}.

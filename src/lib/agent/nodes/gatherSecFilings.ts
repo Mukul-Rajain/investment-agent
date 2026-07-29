@@ -17,10 +17,12 @@ const secSchema = z.object({
   opportunities: z.array(z.string()),
 });
 
-const llm = new ChatGroq({
-  model: "llama-3.3-70b-versatile",
-  temperature: 0,
-}).withStructuredOutput(secSchema);
+function getLlm() {
+  return new ChatGroq({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0,
+  }).withStructuredOutput(secSchema);
+}
 
 export async function gatherSecFilings(
   state: ResearchState
@@ -50,7 +52,7 @@ export async function gatherSecFilings(
       .join("\n\n");
 
     const secFilings = await invokeWithRetry(() =>
-      llm.invoke([
+      getLlm().invoke([
         {
           role: "user",
           content: `Analyze SEC filing data for ${company} and extract structured information.

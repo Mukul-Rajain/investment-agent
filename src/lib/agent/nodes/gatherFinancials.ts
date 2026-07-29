@@ -30,10 +30,12 @@ const financialSchema = z.object({
     .optional(),
 });
 
-const llm = new ChatGroq({
-  model: "llama-3.3-70b-versatile",
-  temperature: 0,
-}).withStructuredOutput(financialSchema);
+function getLlm() {
+  return new ChatGroq({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0,
+  }).withStructuredOutput(financialSchema);
+}
 
 export async function gatherFinancials(
   state: ResearchState
@@ -64,7 +66,7 @@ export async function gatherFinancials(
       // runtime, but LangChain's structured-output type inference exposes
       // their pre-transform shape. See zodHelpers.ts for why.
       const extracted = (await invokeWithRetry(() =>
-        llm.invoke([
+        getLlm().invoke([
           {
             role: "user",
             content: `Extract financial metrics for ${state.company} from the following data. Only include numbers you are confident about. Convert percentages to numbers (e.g. 15% = 15).
