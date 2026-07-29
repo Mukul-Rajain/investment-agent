@@ -18,7 +18,7 @@ export default function RootLayout({
       lang="en"
       className="font-geist-sans antialiased"
     >
-      <body className="min-h-full flex flex-col bg-paper text-ink font-mono">
+      <body className="min-h-screen flex flex-col bg-paper text-ink font-mono">
         <div className="texture-grain" />
         <div className="flex-1">{children}</div>
         <TickerFooter />
