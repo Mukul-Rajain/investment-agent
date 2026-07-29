@@ -1,8 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Press+Start+2P&display=swap');
+
 @import "tailwindcss";
 
 :root {
   --background: #f2ecdd;
   --foreground: #181511;
+  --font-geist-sans: "Geist", sans-serif;
+  --font-geist-mono: "Geist Mono", monospace;
+  --font-pixel-src: "Press Start 2P", system-ui;
 }
 
 @theme inline {
